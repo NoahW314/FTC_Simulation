@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeTests.VuforiaTests;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests.VuforiaTests;
 
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -7,13 +7,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.teamcode.teamcalamari.Angle;
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeType;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.AutonomousNavigationSim.AutonomousNavigationSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.AutonomousNavigationSim.AutonomousNavigationSim.RobotStates;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.VuforiaSimTC;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.DriveSim.OmniWheelDriveSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim.MotorSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.LinearOpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.AutonomousNavigationSim.AutonomousNavigationSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.AutonomousNavigationSim.AutonomousNavigationSim.RobotStates;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.VuforiaSimTC;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DriveSim.OmniWheelDriveSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.LinearOpModeSim;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;

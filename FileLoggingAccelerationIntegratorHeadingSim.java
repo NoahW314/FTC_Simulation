@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;

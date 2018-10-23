@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.DriveSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DriveSim;
 
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.teamcode.teamcalamari.Angle;
 import org.firstinspires.ftc.teamcode.teamcalamari.Location;
 import org.firstinspires.ftc.teamcode.teamcalamari.Math2;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim.MotorSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
 import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.DriveClasses.Drive;
 
 public abstract class DriveSim {

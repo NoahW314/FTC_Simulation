@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeTests;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.HardwareDeviceSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim.MotorSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.RobotsSim.RelicRobotSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.RobotsSim.RelicRobotSim.RelicPrograms;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.OpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.HardwareDeviceSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.RobotsSim.RelicRobotSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.RobotsSim.RelicRobotSim.RelicPrograms;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.OpModeSim;
 
 public class RelicRobotTest extends OpModeSim {
 	

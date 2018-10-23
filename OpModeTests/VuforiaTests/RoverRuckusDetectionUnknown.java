@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeTests.VuforiaTests;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests.VuforiaTests;
 
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -7,13 +7,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.teamcode.teamcalamari.Angle;
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeType;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.AutonomousNavigationSim.AutonomousNavigationSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.AutonomousNavigationSim.AutonomousNavigationSim.RobotActions;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.VuforiaSimTC;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.DriveSim.OmniWheelDriveSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim.MotorSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.OpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.AutonomousNavigationSim.AutonomousNavigationSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.AutonomousNavigationSim.AutonomousNavigationSim.RobotStates;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.VuforiaSimTC;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DriveSim.OmniWheelDriveSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.OpModeSim;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -90,7 +90,7 @@ public class RoverRuckusDetectionUnknown extends OpModeSim {
         nav.update(new VectorF(-1, -1), new Angle(imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle, AngleUnit.DEGREES));
         nav.initialize(drive);
         
-        nav.stickAction = RobotActions.STATIONARY_TURN;
+        nav.stickState = RobotStates.STATIONARY_TURN;
         nav.stickI = 0;
     }
 
@@ -130,7 +130,7 @@ public class RoverRuckusDetectionUnknown extends OpModeSim {
         telemetry.addData("Heading", nav.getHeading());
         telemetry.addData("Last R", imu.lastReturned);
         telemetry.addData("Target", nav.stationaryTurns.get(0));
-        telemetry.addData("State", nav.robotAction);
+        telemetry.addData("State", nav.robotState);
         telemetry.addData("X", gamepad1.x);
         telemetry.update();
     }

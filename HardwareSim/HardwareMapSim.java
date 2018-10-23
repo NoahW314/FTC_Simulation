@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim.MotorSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.AccelerationSensor;

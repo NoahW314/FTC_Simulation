@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.AutonomousNavigationSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.AutonomousNavigationSim;
 
 import java.util.ArrayList;
 
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.teamcode.teamcalamari.Angle;
 import org.firstinspires.ftc.teamcode.teamcalamari.RobotAction;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.DriveSim.DriveSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.OpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DriveSim.DriveSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.OpModeSim;
 
 public class AutonomousNavigationSim {
 	/**The targets that we want the robot to move to as it goes through its autonomous routine.

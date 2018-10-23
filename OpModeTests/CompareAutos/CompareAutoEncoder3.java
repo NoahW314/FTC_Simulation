@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeTests.CompareAutos;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests.CompareAutos;
 
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -8,12 +8,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.teamcode.teamcalamari.Angle;
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeType;
 import org.firstinspires.ftc.teamcode.teamcalamari.RobotAction;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.DataLoggerSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.AutonomousNavigationSim.AllDirectionsNavigationSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.DriveSim.OmniWheelDriveSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim.MotorSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.LinearOpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.DataLoggerSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.AutonomousNavigationSim.AllDirectionsNavigationSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DriveSim.OmniWheelDriveSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.LinearOpModeSim;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;

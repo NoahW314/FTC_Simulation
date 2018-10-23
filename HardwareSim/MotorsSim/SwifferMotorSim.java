@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 

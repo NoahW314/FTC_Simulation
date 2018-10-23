@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeTests.CompareAutos;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests.CompareAutos;
 
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -9,14 +9,14 @@ import org.firstinspires.ftc.teamcode.teamcalamari.Angle;
 import org.firstinspires.ftc.teamcode.teamcalamari.AxesSet;
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeType;
 import org.firstinspires.ftc.teamcode.teamcalamari.RobotAction;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.DataLoggerSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.AutonomousNavigationSim.AllDirectionsNavigationSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.AutonomousNavigationSim.AutonomousNavigationSim.RobotActions;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.DriveSim.OmniWheelDriveSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim.MotorSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.SensorsSim.DistanceSensorSimTC;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.LinearOpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.DataLoggerSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.AutonomousNavigationSim.AllDirectionsNavigationSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.AutonomousNavigationSim.AutonomousNavigationSim.RobotStates;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DriveSim.OmniWheelDriveSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.DistanceSensorSimTC;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.LinearOpModeSim;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
@@ -154,7 +154,7 @@ public class CompareAutoUltraObs extends LinearOpModeSim {
         totalTime.reset();
         
         while(opModeIsActive()) {
-        	if(nav.robotAction == RobotActions.DRIVING) {
+        	if(nav.robotState == RobotStates.DRIVING) {
 	        	if(nav.i > 0 && nav.i < 2) {
 	        		double time = totalTime.seconds();
 	        		telemetry.addData("Time", time);

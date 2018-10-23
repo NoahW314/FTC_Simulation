@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim;
 
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.configuration.MotorConfigurationType;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 public class DcMotorControllerSim implements DcMotorController {
 
@@ -93,6 +93,10 @@ public class DcMotorControllerSim implements DcMotorController {
 	@Override
 	public int getMotorCurrentPosition(int motor) {
 		return 0;
+	}
+
+	@Override
+	public void resetDeviceConfigurationForOpMode(int motor) {
 	}
 
 }

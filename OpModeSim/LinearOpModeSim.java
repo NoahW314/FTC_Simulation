@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim;
 
 import java.util.Scanner;
 import java.util.concurrent.CancellationException;

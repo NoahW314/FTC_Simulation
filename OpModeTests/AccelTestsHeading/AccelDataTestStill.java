@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeTests.AccelTestsHeading;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests.AccelTestsHeading;
 
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.DataLoggerSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.FileLoggingAccelerationIntegratorHeadingSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.LinearOpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.DataLoggerSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.FileLoggingAccelerationIntegratorHeadingSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.LinearOpModeSim;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;

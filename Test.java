@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation;
 
 import com.qualcomm.hardware.motors.NeveRest60Gearmotor;
 import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;

@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeTests.DrivingAbsoluteSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests.DrivingAbsoluteSim;
 
 public class RunOpMode {
 

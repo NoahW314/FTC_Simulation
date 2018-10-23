@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeTests;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests;
 
 import java.io.FileReader;
 
@@ -7,10 +7,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.teamcalamari.Angle;
 import org.firstinspires.ftc.teamcode.teamcalamari.DataLogger;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.DriveSim.DriveSim.turnDirection;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.RobotsSim.RelicRobotSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.RobotsSim.RelicRobotSim.RelicPrograms;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.OpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DriveSim.DriveSim.turnDirection;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.RobotsSim.RelicRobotSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.RobotsSim.RelicRobotSim.RelicPrograms;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.OpModeSim;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 

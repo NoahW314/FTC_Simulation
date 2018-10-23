@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.AutonomousNavigationSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.AutonomousNavigationSim;
 
 import java.util.ArrayList;
 
 import org.firstinspires.ftc.teamcode.teamcalamari.Angle;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.DriveSim.AllDirectionsDriveSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.OpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DriveSim.AllDirectionsDriveSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.OpModeSim;
 
 public class AllDirectionsNavigationSim extends AutonomousNavigationSim {
 	

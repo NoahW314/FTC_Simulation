@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeTests;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.teamcalamari.Angle;
 import org.firstinspires.ftc.teamcode.teamcalamari.AxesSet;
 import org.firstinspires.ftc.teamcode.teamcalamari.Location;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.LogSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.OpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.LogSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.OpModeSim;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 

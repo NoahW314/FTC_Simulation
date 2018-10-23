@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeType;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.HardwareDeviceSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.HardwareMapSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim.MotorSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.HardwareDeviceSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.HardwareMapSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
 
 public class TelemetrySim{
 	public TelemetrySim(OpModeType opModeType) {

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 

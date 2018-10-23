@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeTests;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests;
 
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim.OpModeSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.OpModeSim;
 
 public class TestOpModeSim extends OpModeSim {
 

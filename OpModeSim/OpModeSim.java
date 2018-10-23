@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.OpModeSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim;
 
 import java.util.concurrent.TimeUnit;
 
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeType;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.TelemetrySim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.GamepadSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.HardwareMapSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.TelemetrySim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.GamepadSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.HardwareMapSim;
 
 public abstract class OpModeSim {
 	

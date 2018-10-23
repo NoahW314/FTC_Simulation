@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.RobotsSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.RobotsSim;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeType;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.GamepadSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.HardwareMapSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.GamepadSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.HardwareMapSim;
 
 public abstract class BaseRobotSim {
 	public Program program;

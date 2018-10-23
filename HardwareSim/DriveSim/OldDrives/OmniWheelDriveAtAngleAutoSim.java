@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.DriveSim.OldDrives;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DriveSim.OldDrives;
 
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim.MotorSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
 
 /**
  * Created by DesignDrawing on 11/11/2017.

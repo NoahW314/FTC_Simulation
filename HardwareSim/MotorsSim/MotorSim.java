@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.MotorsSim;
+package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.DcMotorControllerSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.Simulation.HardwareSim.HardwareDeviceSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DcMotorControllerSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.HardwareDeviceSim;
 import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Motors.Motor;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,9 +12,10 @@ import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
-import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+import com.qualcomm.robotcore.hardware.HardwareDevice.Manufacturer;
 import com.qualcomm.robotcore.hardware.configuration.UnspecifiedMotor;
 import com.qualcomm.robotcore.hardware.configuration.annotations.MotorType;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.qualcomm.robotcore.util.Range;
 
 public class MotorSim implements HardwareDeviceSim {
