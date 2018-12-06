@@ -95,6 +95,14 @@ public abstract class DriveSim {
 	/**set the calculated powers to the wheel motors*/
 	public void drive() {}
 	
+	public void stop() {
+		this.speed = 0;
+	    for(int i = 0; i < wheelMotors.length; i++) {
+	        this.wheelMotors[i].resetPower(0);//paranoia
+	    }
+	    this.drive();
+	}
+	
 	public void updateEncoders() {
 		for(int i = 0; i < lastEncoderPositions.length; i++) {
 			lastEncoderPositions[i] = wheelMotors[i].getCurrentPosition();

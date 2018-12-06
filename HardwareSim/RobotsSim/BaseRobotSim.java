@@ -23,6 +23,8 @@ public abstract class BaseRobotSim {
 		enabledDevices.replace(hwDevice, false);
 	}
 	
+	public void stop() {}
+	
 	/**Classes that extend BaseRobot should create their own list of programs by creating an enum that implements Program.
 	A value from that enum can then be passed to the constructor.*/
 	public interface Program{

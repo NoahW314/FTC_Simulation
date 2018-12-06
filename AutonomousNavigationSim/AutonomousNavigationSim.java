@@ -63,6 +63,9 @@ public class AutonomousNavigationSim {
 	/**The current heading of the robot*/
 	protected Angle heading = null;
 	
+	/**The starting heading of the robot, as measured from the field axes to the robot wheel axes*/
+	protected Angle startingHeading = null;
+	
 	/**The element number for the array lists*/
 	public int i = 0;
 	
@@ -147,6 +150,27 @@ public class AutonomousNavigationSim {
 		this.heading = heading;
 	}
 	
+	
+	/**Sets the position*/
+	public void updatePosition(VectorF pose, boolean absolute){
+	    if(absolute){position = pose;}
+	    else{position = pose.added(targets.get(0));}
+    }
+    /**Sets the heading*/
+    public void updateHeading(Angle heading, boolean absolute){
+	    if(absolute){this.heading = heading;}
+	    else{this.heading = Angle.add(heading, startingHeading);}
+    }
+    /**Sets the position and the heading*/
+    public void update(VectorF pose, Angle heading, boolean firstUpdate) {
+        position = pose;
+        this.heading = heading;
+        if(firstUpdate){
+            targets.set(0, position);
+            startingHeading = heading;
+        }
+    }
+	
 	/**Performs the autonomous routine*/
 	public void run() {
 		switch(robotState){
@@ -159,9 +183,14 @@ public class AutonomousNavigationSim {
 			case STATIONARY_TURN:
 				runStationaryTurn();
 				break;
-			case FINISHED:
-				finalCode.run();
+			case FINISHING:
+				if(finalCode != null) {
+					finalCode.run();
+				}
 				opMode.requestOpModeStop();
+				nextState();
+				break;
+			case FINISHED:
 				break;
 			default:
 				if(i == 0 && targets.size() != 0){throw new IllegalStateException("AutonomousNavigation.initialize must be called before calling AutonomousNavigation.run");}
@@ -191,7 +220,7 @@ public class AutonomousNavigationSim {
 	}
 	public void runDriving() {
 		if(i >= targets.size()) {
-			robotState = RobotStates.FINISHED;
+			robotState = RobotStates.FINISHING;
 		}
 		else {
 			if(drivingActions.get(i-1) != null) {
@@ -273,11 +302,15 @@ public class AutonomousNavigationSim {
 				else {robotState = RobotStates.DRIVING; i++;}
 				break;
 				
+			case FINISHING:
+				robotState = RobotStates.FINISHED;
+				break;
+				
 			default:
 				throw new IllegalArgumentException("There is no next robot state to move to!");
 		}
 	}
 
 	/**Enum for what actions the robot might take*/
-	public static enum RobotStates{ACTION, STATIONARY_TURN, DRIVING, FINISHED, NONE}
+	public static enum RobotStates{ACTION, STATIONARY_TURN, DRIVING, FINISHING, FINISHED, NONE}
 }

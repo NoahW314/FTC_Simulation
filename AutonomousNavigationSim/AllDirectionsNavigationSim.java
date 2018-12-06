@@ -40,7 +40,7 @@ public class AllDirectionsNavigationSim extends AutonomousNavigationSim {
 	@Override
 	public void runDriving() {
 		if(i >= targets.size()) {
-			robotState = RobotStates.FINISHED;
+			robotState = RobotStates.FINISHING;
 		}
 		else {
 			if(drivingActions.get(i-1) != null) {

@@ -3,13 +3,13 @@ package org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim;
 import java.io.IOException;
 import java.util.Scanner;
 
-import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests.DrivingAbsoluteSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeTests.Rover.TeleOpCompSim;
 
 public class RunOpMode {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		//replace with the OpModeSim instance that you want to test with
-		OpModeSim mode = new DrivingAbsoluteSim();
+		OpModeSim mode = new TeleOpCompSim();
 		RunOpMode rom = new RunOpMode();
 		initLoop il = rom.new initLoop(mode);
 		Scanner sc = new Scanner(System.in);

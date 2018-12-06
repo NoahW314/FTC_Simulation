@@ -5,6 +5,7 @@ import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.FileLoggingAcc
 import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DriveSim.OldDrives.OmniWheelDriveAtAngleAutoSim;
 import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
 import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.BNO055TestMultiSim;
 import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.LinearOpModeSim;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -43,7 +44,7 @@ public class AccelDataTest extends LinearOpModeSim {
     private MotorSim RedMotor;
     
     //the imu
-    private BNO055IMUSim imu;
+    private BNO055TestMultiSim imu;
     
     //a timer
     private ElapsedTime time = new ElapsedTime();
@@ -84,7 +85,7 @@ public class AccelDataTest extends LinearOpModeSim {
         parametersIMU.loggingTag          = "IMU";
         parametersIMU.accelerationIntegrationAlgorithm = new FileLoggingAccelerationIntegratorHeadingSim(IMUlogger);
         
-        imu = hardwareMap.get(BNO055IMUSim.class, "imu");
+        imu = hardwareMap.get(BNO055TestMultiSim.class, "imu");
         imu.initialize(parametersIMU);
         
         //drivetrain initialization
@@ -113,6 +114,7 @@ public class AccelDataTest extends LinearOpModeSim {
         				state = states.done;
         				robotDrive.drive(0);
         				imu.stopAccelerationIntegration();
+        				this.requestOpModeStop();
         			}
         			break;
 				default:

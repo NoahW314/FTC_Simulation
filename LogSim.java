@@ -14,10 +14,10 @@ import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.OpModeSim.OpMo
 public class LogSim {
 	//maps of field names to logging tags
 	/**Map used for fields that should be logged every time log() is called*/
-	public Map<String, String> loggers = new HashMap<>();
+	public Map<String[], String> loggers = new HashMap<>();
 	/**Map used for fields that should only be logged when logError() is called.  
 	All fields in loggers will also be logged when logError() is called*/
-	public Map<String, String> errorLoggers = new HashMap<>();
+	public Map<String[], String> errorLoggers = new HashMap<>();
 	
 	//maps of field objects to logging tags
 	/**Map used for fields that should be logged every time log() is called*/
@@ -25,6 +25,10 @@ public class LogSim {
 	/**Map used for fields that should only be logged when logError() is called.  
 	All fields in loggers will also be logged when logError() is called*/
 	private Map<Field, String> errLoggers = new HashMap<>();
+	
+	//maps of field objects to objects
+	private Map<Field, Object> loopObjects = new HashMap<>();
+	private Map<Field, Object> errObjects = new HashMap<>();
 	public OpModeSim opMode;
 	
 	private Writer writer;
@@ -46,28 +50,46 @@ public class LogSim {
     }
 
 	public void findFields() {
-    	for(Entry<String, String> entry : loggers.entrySet()) {
+    	for(Entry<String[], String> entry : loggers.entrySet()) {
     		try {
-	    		Field field = opMode.getClass().getDeclaredField(entry.getKey());
+    			String[] key = entry.getKey();
+	    		Field field = opMode.getClass().getDeclaredField(key[0]);
+	    		Object obj = opMode;
+	    		for(int i = 1; i < key.length; i++){
+                    obj = field.get(obj);
+	    		    field = field.getType().getDeclaredField(key[i]);
+                }
+
 	    		//make sure we can access field we are trying to log
 	    		field.setAccessible(true);
 	    		loopLoggers.put(field, entry.getValue());
+	    		loopObjects.put(field, obj);
     		}catch(NoSuchFieldException fe) {}
+    		catch(IllegalAccessException e){e.printStackTrace();}
     	}
-    	for(Entry<String, String> entry : errorLoggers.entrySet()) {
+    	for(Entry<String[], String> entry : errorLoggers.entrySet()) {
     		try {
-	    		Field field = opMode.getClass().getDeclaredField(entry.getKey());
+    			String[] key = entry.getKey();
+	    		Field field = opMode.getClass().getDeclaredField(key[0]);
+	    		Object obj = opMode;
+                for(int i = 1; i < key.length; i++){
+                    obj = field.get(obj);
+                    field = field.getType().getDeclaredField(key[i]);
+                }
+
 	    		//make sure we can access field we are trying to log
 	    		field.setAccessible(true);
-	    		errLoggers.put(field, entry.getKey());
+	    		errLoggers.put(field, entry.getValue());
+	    		errObjects.put(field, obj);
     		}catch(NoSuchFieldException fe) {}
+    		catch(IllegalAccessException e) {e.printStackTrace();}
     	}
     }
     
     public void log() {
     	for(Entry<Field, String> entry : loopLoggers.entrySet()) {
     		try {
-    			addLine(entry.getValue()+": "+entry.getKey().get(opMode).toString());
+    			addLine(entry.getValue()+": "+entry.getKey().get(loopObjects.get(entry.getKey())).toString());
 			} catch (Exception e) {
 				//logging failures should always catch errors
 				//we want to continue running the app even if the logging is not working
@@ -97,7 +119,7 @@ public class LogSim {
     	//log system information at the time of the error
     	for(Entry<Field, String> entry : errLoggers.entrySet()) {
     		try {
-    			addLine(entry.getValue()+": "+entry.getKey().get(opMode).toString());
+    			addLine(entry.getValue()+": "+entry.getKey().get(errObjects.get(entry.getKey())).toString());
 			} catch (Exception e2) {
 				//logging failures should always catch errors
 				//we want to continue running the app even if the logging is not working
@@ -125,7 +147,7 @@ public class LogSim {
     	//log system information at the time of the error
     	for(Entry<Field, String> entry : errLoggers.entrySet()) {
     		try {
-    			addLine(entry.getValue()+": "+entry.getKey().get(opMode).toString());
+    			addLine(entry.getValue()+": "+entry.getKey().get(errObjects.get(entry.getKey())).toString());
 			} catch (Exception e2) {
 				//logging failures should always catch errors
 				//we want to continue running the app even if the logging is not working
@@ -173,6 +195,7 @@ public class LogSim {
             writer.close();
         }
         catch (IOException e) {
+        	System.out.println("Failed to close writer");
         	//not much we can do here
         	//we can't log the error since the close method isn't working
         	//we don't want to throw an error since logging failure is not a reason to stop the app

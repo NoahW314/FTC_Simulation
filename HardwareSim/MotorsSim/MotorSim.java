@@ -5,29 +5,33 @@ import java.text.DecimalFormat;
 
 import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.DcMotorControllerSim;
 import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.HardwareDeviceSim;
-import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Motors.Motor;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.HardwareMapSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Motors.Core.Motor;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
-import com.qualcomm.robotcore.hardware.HardwareDevice.Manufacturer;
 import com.qualcomm.robotcore.hardware.configuration.UnspecifiedMotor;
 import com.qualcomm.robotcore.hardware.configuration.annotations.MotorType;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.qualcomm.robotcore.util.Range;
 
-public class MotorSim implements HardwareDeviceSim {
+public class MotorSim extends MotorSimpleSim implements DcMotor {
 	
-	private double internalPower = 0;
-	private double power = 0;
-	private MotorConfigurationType motorType = new MotorConfigurationType();
-	private ZeroPowerBehavior zeroPowerBehavior = ZeroPowerBehavior.BRAKE;
-	private int targetPosition = 0;
-	private int currentPosition = 0;
-	private RunMode mode = RunMode.RUN_USING_ENCODER;
-	private Direction direction = Direction.FORWARD;
+	protected MotorConfigurationType motorType = new MotorConfigurationType();
+	protected ZeroPowerBehavior zeroPowerBehavior = ZeroPowerBehavior.BRAKE;
+	protected int targetPosition = 0;
+	protected int currentPosition = 0;
+	protected RunMode mode = RunMode.RUN_USING_ENCODER;
+	/**The tick offset of the motor at the start.  If set, all encoder ticks (both setting and getting)
+    should be using the old system.  So if the startingTicks is 100, and you want the motor to go to a position
+    100 ticks away from its position at the start, input 200 as the target position.  If you want the motor to go
+    to its position at the start, input 100 as the target position*/
+	public int startingTicks = 0;
+	
+	public MotorSim motorObject;
 	
 	public MotorSim() {
 		motorType.processAnnotation(UnspecifiedMotor.class.getDeclaredAnnotation(MotorType.class));
@@ -35,38 +39,28 @@ public class MotorSim implements HardwareDeviceSim {
 	
 	public MotorSim(MotorSim m) {
 		this();
+		motorObject = m;
 	}
-	 
-	 //Hardware Device
-	 
-	 public Manufacturer getManufacturer() {
-	    return Manufacturer.Other;
+	
+	public MotorSim(HardwareMapSim hwMap, String name) {
+		this(hwMap.dcMotor.get(name));
+		hwMap.dcMotor.replace(name, this, this.motorObject);
 	}
+	
+	//Hardware Device
 
-	 public String getDeviceName() {
-	    return "Motor Simulation";
-	}
-
-	 public String getConnectionInfo() {
-	    return "Connection info does not exist for a simulated motor";
+	@Override
+	public String getDeviceName() {
+	   return "Motor Simulation";
 	}
 	 
-	 public int getVersion() {
-		 return 1;
-	 }
-	 
-	 @Override
-	public void resetDeviceConfigurationForOpMode() {
-		 throw new IllegalStateException("Why are you calling this method which does not exist?");
-	 }
-	 
-	 public void close() {}
-	 
-	 public void move() {
-		 switch(this.getMode()) {
+	@Override
+	public void move() {
+		switch(this.getMode()) {
 			case RUN_TO_POSITION:
 				int reverse = 1;
 				if(currentPosition > targetPosition) {reverse = -1;}
+				if(currentPosition == targetPosition) {reverse = 0;}
 				internalPower*=reverse;
 				internalMove();
 				internalPower*=reverse;
@@ -80,27 +74,29 @@ public class MotorSim implements HardwareDeviceSim {
 				break;
 			default:
 				break;
-		 }
-	 }
+		}
+	}
 	 
-	 private void internalMove() {
+	private void internalMove() {
 		//~224 for neverest motors
 		//~192 for rev core hex motors
 		//~396 for unspecified motor
+		 
 		double tickSpeed;
 		if((tickSpeed = this.getMotorType().getAchieveableMaxTicksPerSecond()/2) != 0) {
 			currentPosition+=internalPower*tickSpeed/10;
-		}
+		} 
 		else {
 			currentPosition+=internalPower*224;
 		}
-	 }
+	}
 	 
-	 public String log(String deviceName) {
-		 DecimalFormat df = new DecimalFormat("#.####");
-		 df.setRoundingMode(RoundingMode.HALF_UP);
-		 String log = "";
-		 switch(this.getMode()) {
+	@Override
+	public String log(String deviceName) {
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.HALF_UP);
+		String log = "";
+		switch(this.getMode()) {
 			case RUN_TO_POSITION:
 				log+=" is running at a speed of "+df.format(internalPower)+" from "+currentPosition+" to "+targetPosition;
 				break;
@@ -115,9 +111,9 @@ public class MotorSim implements HardwareDeviceSim {
 				break;
 			default:
 				break;
-		 }
-		 return log;
-	 }
+		}
+		return log;
+	}
 	
 	 //DcMotor
 	 
@@ -128,9 +124,6 @@ public class MotorSim implements HardwareDeviceSim {
 		this.motorType = motorType;
 	}
 	
-	public void setPowerInternally(double power) {
-	    internalPower = power;
-	}
 	 synchronized public double getPower() {
 	    double power = internalPower;
 	    if (getMode() == RunMode.RUN_TO_POSITION) {
@@ -154,17 +147,17 @@ public class MotorSim implements HardwareDeviceSim {
 	 }
 	 
 	 synchronized public void setTargetPosition(int position) {
-	    internalSetTargetPosition(position);
+	    internalSetTargetPosition(position-startingTicks);
 	 }
 	 
 	 protected void internalSetTargetPosition(int position) {
 	    targetPosition = position;
 	}
 	 synchronized public int getTargetPosition() {
-	    return targetPosition;
+	    return targetPosition+startingTicks;
 	}
 	 synchronized public int getCurrentPosition() {
-		 return currentPosition;
+		 return currentPosition+startingTicks;
 	}
 	
 	 synchronized public void setMode(RunMode mode) {
@@ -184,63 +177,21 @@ public class MotorSim implements HardwareDeviceSim {
 	 public int getPortNumber() {
 		 return 0;
 	 }
-	  
-	  synchronized public void setDirection(Direction direction) {
-	    this.direction = direction;
-	  }
-
-	  public Direction getDirection() {
-	    return direction;
-	  }
+	 
+	 public void setPowerFloat() {
+		 setZeroPowerBehavior(ZeroPowerBehavior.FLOAT);
+		 resetPower(0);
+		 run();
+	 }
 	 
 	 //Motor
-	 
-	 /**Adds the given power to <code>power</code> which will be used to set the motor power when run() is called*/
-		public void setPower(double power) {
-			this.power+=power;
-		}
-		/**Resets <code>power</code> to the given power*/
-		public void resetPower(double power) {
-			this.power = power;
-		}
-		/**Returns the power that will currently be set to the motor should run be called.
-		getPower() will return the power last set to the motor by run*/
-		public double getCurrentPower() {
-			return power;
-		}
-		/**Set the power of the motor*/
-		public void run() {
-			setPowerInternally(power);
-			power = 0;
-		}
 		
-		public void normalizePower() {
-			power = Range.clip(power, -1, 1);
+	/**Converts an array of DcMotors to Motors.  Used in the Drive interface.*/
+	public static Motor[] DcMotorsToMotors(DcMotor[] dcMotors) {
+		Motor[] motors = new Motor[dcMotors.length];
+		for(int i = 0; i < dcMotors.length; i++) {
+			motors[i] = new Motor(dcMotors[i]);
 		}
-		public static void normalizePowers(Motor...motors) {
-			//determine the maximum wheel power
-	        double maxi = Math.abs(motors[0].getCurrentPower());
-	        for(int i = 1; i < motors.length; i++){
-	            if(Math.abs(motors[i].getCurrentPower()) > maxi){
-	                maxi = Math.abs(motors[i].getCurrentPower());
-	            }
-	        }
-
-	        /*divide all the motor powers by the maximum power to preserve
-	        the ratios between the wheels while keeping the powers under 1*/
-	        if(maxi != 0 && maxi > 1){
-	            for(int i = 0; i < motors.length; i++){
-	                motors[i].resetPower(motors[i].getCurrentPower()/maxi);
-	            }
-	        }
-		}
-		
-		/**Converts an array of DcMotors to Motors.  Used in the Drive interface.*/
-		public static Motor[] DcMotorsToMotors(DcMotor[] dcMotors) {
-			Motor[] motors = new Motor[dcMotors.length];
-			for(int i = 0; i < dcMotors.length; i++) {
-				motors[i] = new Motor(dcMotors[i]);
-			}
-			return motors;
-		}
+		return motors;
+	}
 }

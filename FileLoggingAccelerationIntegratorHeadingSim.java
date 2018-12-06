@@ -63,4 +63,10 @@ public class FileLoggingAccelerationIntegratorHeadingSim implements BNO055IMU.Ac
 	@Override
 	public void update(Acceleration linearAcceleration) {
 	}
+	
+	public FileLoggingAccelerationIntegratorHeadingSim clone(int i) {
+		FileLoggingAccelerationIntegratorHeadingSim integrator = new FileLoggingAccelerationIntegratorHeadingSim(new DataLoggerSim(this.logger.fileName+" "+i));
+		integrator.initialize(parameters.clone(), null, null);
+		return integrator;
+	}
 }

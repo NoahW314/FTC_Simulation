@@ -43,4 +43,25 @@ public class KiwiDriveSim extends OmniWheelDriveSim {
         }
 	}
 
+	@Override
+    public void updateEncoderMotion(Angle heading) {
+		double[] encoderDifferences = new double[3];
+		double[] encPose = new double[3];
+        for(int i = 0; i < 3; i++) {
+            encPose[i] = wheelMotors[i].getCurrentPosition();
+        }
+        for(int i = 0; i < 3; i++){
+            encoderDifferences[i] = encPose[i]-lastEncoderPositions[i];
+            lastEncoderPositions[i] = encPose[i];
+        }
+
+        double driveX = (encoderDifferences[1]-encoderDifferences[2])/Math.sqrt(3)*inchesPerTick;
+        double driveY = (encoderDifferences[0]-(encoderDifferences[2]+encoderDifferences[1])/2)*2/3*inchesPerTick;
+
+        double driveDistance = Math.sqrt(Math.pow(driveX, 2)+Math.pow(driveY, 2));
+        double theta = heading.getRadian()+Math.atan2(driveY, driveX);
+
+        encoderMotion.position.x+=driveDistance*Math.cos(theta);
+        encoderMotion.position.y+=driveDistance*Math.sin(theta);        
+    }
 }

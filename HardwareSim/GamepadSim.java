@@ -24,10 +24,11 @@ public class GamepadSim extends Gamepad {
 		//dpad
 		dpad_up = input.contains("o");
 		dpad_down = input.contains("l");
-		dpad_right = input.contains("k");
-		dpad_left = input.contains(";");
+		dpad_right = input.contains(";");
+		dpad_left = input.contains("k");
 
 		//mode, start, back
+		//TODO: m is used twice.  Here and in the joystick right x
 		guide = input.contains("m");
 		start = input.contains("s");
 		back = input.contains("`");
@@ -61,7 +62,7 @@ public class GamepadSim extends Gamepad {
 		if(input.contains("m")) {right_stick_x = 0;}
 		if(input.contains(",")) {right_stick_x = 1;}
 		//y
-		if(input.contains("y")) {right_stick_y = -1;}
+		if(input.contains("t")) {right_stick_y = -1;}
 		if(input.contains("u")) {right_stick_y = 0;}
 		if(input.contains("i")) {right_stick_y = 1;}
 

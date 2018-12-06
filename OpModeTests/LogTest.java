@@ -20,9 +20,9 @@ public class LogTest extends OpModeSim {
 	@Override
 	public void init() {
 		try {
-			log.loggers.put("angle", "Angle");
-			log.loggers.put("location", "Location");
-			log.errorLoggers.put("runtime", "Time");
+			log.loggers.put(new String[] {"angle"}, "Angle");
+			log.loggers.put(new String[] {"location", "position"}, "Location");
+			log.errorLoggers.put(new String[] {"runtime"}, "Time");
 			log.findFields();
 		}catch(RuntimeException e) {
 			throw e;

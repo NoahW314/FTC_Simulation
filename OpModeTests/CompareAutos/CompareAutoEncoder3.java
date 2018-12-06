@@ -51,6 +51,8 @@ public class CompareAutoEncoder3 extends LinearOpModeSim {
     private int targetNum = 4;
     private AllDirectionsNavigationSim nav = new AllDirectionsNavigationSim(targetNum, speed, driveSpeed, stillTurnSpeed, stillTurnTurnSpeed, moveTurnSpeed, this);
     
+    private boolean waiting = false;
+    private boolean firstTimeWait = true;
     RobotAction wait = new RobotAction() {
     	ElapsedTime time = new ElapsedTime();
     	public boolean start() {
@@ -58,12 +60,15 @@ public class CompareAutoEncoder3 extends LinearOpModeSim {
     		drive.speed = 0;
     		drive.drive();
     		
+    		firstTimeWait = true;
+    		
     		time.reset();
     		return true;
     	}
 		@Override
 		public boolean act() {
-			return time.seconds() > 10;
+			waiting = true;
+			return time.seconds() > 15;
 		}
     };
     
@@ -126,6 +131,7 @@ public class CompareAutoEncoder3 extends LinearOpModeSim {
         logger.addField("Heading");
         logger.addField("Position X");
         logger.addField("Position Y");
+        logger.addField("Wait");
         logger.newLine();
         
         telemetry.addData("TestNum ", testNum);
@@ -139,13 +145,25 @@ public class CompareAutoEncoder3 extends LinearOpModeSim {
         	nav.updateHeading(heading);
         	Position pose = drive.getEncoderMotion().position;
         	nav.updatePosition(new VectorF((float)pose.x, (float)pose.y));
+        	waiting = false;
         	nav.run();
         	drive.updateEncoders();
         	
-        	logger.addField(nav.getHeading().getDegree());
-        	logger.addField(nav.getPosition().get(0));
-        	logger.addField(nav.getPosition().get(1));
-        	logger.newLine();
+        	if(!waiting) {
+                logger.addField(nav.getHeading().getDegree());
+                logger.addField(nav.getPosition().get(0));
+                logger.addField(nav.getPosition().get(1));
+                logger.addField(false);
+                logger.newLine();
+            }
+            else if(firstTimeWait){
+                logger.addField(nav.getHeading().getDegree());
+                logger.addField(nav.getPosition().get(0));
+                logger.addField(nav.getPosition().get(1));
+                logger.addField(true);
+                logger.newLine();
+                firstTimeWait = false;
+            }
         }
 	}
 

@@ -10,11 +10,13 @@ public class DataLoggerSim {
     private StringBuffer lineBuffer;
     public boolean fileCreated;
     public String path;
+    public String fileName;
 
     public DataLoggerSim (String fileName) {
         String directoryPath    = "F:\\DataLogger";
         String filePath         = directoryPath + "\\" + fileName + ".txt";
         path = filePath;
+        this.fileName = fileName;
 
         fileCreated = new File(directoryPath).mkdir();        // Make sure that the directory exists
 
@@ -40,6 +42,7 @@ public class DataLoggerSim {
             writer.close();
         }
         catch (IOException e) {
+        	e.printStackTrace();
         }
     }
 

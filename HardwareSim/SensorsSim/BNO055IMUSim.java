@@ -20,7 +20,6 @@ import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.Ha
 import org.firstinspires.ftc.teamcode.teamcalamari.FilterStuff.FiltersAccelIntegration.NoFilter;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.HardwareDevice.Manufacturer;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.ThreadPool;
 
@@ -37,7 +36,7 @@ public class BNO055IMUSim implements BNO055IMU, HardwareDeviceSim{
 	Parameters parameters;
 	public int lastReturned = 0;
 	public boolean turning = false;
-	private AccelerationIntegrator accelerationAlgorithm;
+	protected AccelerationIntegrator accelerationAlgorithm;
 	protected final Object startStopLock = new Object();
     protected final Object dataLock = new Object();
     protected ExecutorService accelerationMananger;

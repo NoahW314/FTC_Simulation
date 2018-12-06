@@ -9,6 +9,8 @@ import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.Ha
 import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.HardwareMapSim;
 import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
 
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+
 public class TelemetrySim{
 	public TelemetrySim(OpModeType opModeType) {
 		this.opModeType = opModeType;
@@ -27,7 +29,7 @@ public class TelemetrySim{
 		hardwareMap = hwMapSim;
 	}
 	
-	public void hardwareUpdate(HashMap<HardwareDeviceSim, String> deviceMap) {
+	public void hardwareUpdate(HashMap<HardwareDevice, String> deviceMap) {
 		if(opModeType == OpModeType.TELE) {
 			if(logHardware) {
 				logHardware(deviceMap.entrySet());
@@ -36,17 +38,17 @@ public class TelemetrySim{
 		}
 	}
 	
-	public void logHardware(Set<Entry<HardwareDeviceSim, String>> hardwareMapEntries) {
-		for(Entry<HardwareDeviceSim, String> entry : hardwareMapEntries) {
+	public void logHardware(Set<Entry<HardwareDevice, String>> hardwareMapEntries) {
+		for(Entry<HardwareDevice, String> entry : hardwareMapEntries) {
 			boolean isMotor = (entry.getKey().getClass() == MotorSim.class);
 			if(!isMotor || (isMotor && logMotors)) {
-				addData(entry.getValue(), entry.getKey().log(entry.getValue()));
+				addData(entry.getValue(), ((HardwareDeviceSim)entry.getKey()).log(entry.getValue()));
 			}
 		}
 	}
-	public void moveHardware(Set<HardwareDeviceSim> hdSet) {
-		for(HardwareDeviceSim h : hdSet) {
-			h.move();
+	public void moveHardware(Set<HardwareDevice> hdSet) {
+		for(HardwareDevice h : hdSet) {
+			((HardwareDeviceSim)h).move();
 		}
 	}
 	

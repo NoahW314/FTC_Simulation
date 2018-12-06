@@ -4,13 +4,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.MotorsSim.MotorSimpleSim;
 import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.BNO055IMUSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.SensorsSim.BNO055TestMultiSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.ServosSim.CRServoSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.FTC_Simulation.HardwareSim.ServosSim.ServoSim;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.AccelerationSensor;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.AnalogOutput;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -39,7 +42,7 @@ public class HardwareMapSim implements Iterable<String>{
 
   public DeviceMapping<ServoController>       servoController       = new DeviceMapping<ServoController>(ServoController.class);
   public DeviceMapping<ServoSim>                 servo                 = new DeviceMapping<ServoSim>(ServoSim.class);
-  public DeviceMapping<CRServo>               crservo               = new DeviceMapping<CRServo>(CRServo.class);
+  public DeviceMapping<CRServoSim>               crservo               = new DeviceMapping<CRServoSim>(CRServoSim.class);
 
   public DeviceMapping<LegacyModule>          legacyModule          = new DeviceMapping<LegacyModule>(LegacyModule.class);
   public DeviceMapping<TouchSensorMultiplexer> touchSensorMultiplexer = new DeviceMapping<TouchSensorMultiplexer>(TouchSensorMultiplexer.class);
@@ -64,20 +67,33 @@ public class HardwareMapSim implements Iterable<String>{
   public DeviceMapping<UltrasonicSensor>      ultrasonicSensor      = new DeviceMapping<UltrasonicSensor>(UltrasonicSensor.class);
   public DeviceMapping<VoltageSensor>         voltageSensor         = new DeviceMapping<VoltageSensor>(VoltageSensor.class);
 
-  public HashMap<HardwareDeviceSim, String> deviceMap = new HashMap<HardwareDeviceSim, String>();
+  public HashMap<HardwareDevice, String> deviceMap = new HashMap<HardwareDevice, String>();
   
   public HardwareMapSim() {}
 
   @SuppressWarnings("unchecked")
   public <T> T get(Class<? extends T> classOrInterface, String deviceName) {
 	  //class/interface simulators will be added as needed
-	  //for now we have none
+
 	  if(classOrInterface.equals(BNO055IMU.class) || classOrInterface.equals(BNO055IMUSim.class)) {
 		  return (T) new BNO055IMUSim(); 
+	  }
+	  else if(classOrInterface.equals(BNO055TestMultiSim.class)){
+	      return (T) new BNO055TestMultiSim();
+      }
+	  else if(classOrInterface.equals(MotorSimpleSim.class)) {
+		  MotorSimpleSim motorSimple = new MotorSimpleSim();
+		  deviceMap.put(motorSimple, deviceName);
+		  return (T) motorSimple;
 	  }
 	  else {
 		  return null;
 	  }
+  }
+  
+  public<T extends HardwareDevice> void replace(String deviceName, T hardwareDevice, T originalDevice) {
+	  deviceMap.remove(originalDevice);
+	  deviceMap.put(hardwareDevice, deviceName);
   }
 
   public class DeviceMapping<DEVICE_TYPE extends HardwareDevice>{
@@ -98,9 +114,19 @@ public class HardwareMapSim implements Iterable<String>{
    			deviceMap.put(servoSim, deviceName);
    			return (DEVICE_TYPE) servoSim;
    		}
+   		else if(deviceTypeClass.equals(CRServoSim.class)) {
+   			CRServoSim servoSim = new CRServoSim();
+   			deviceMap.put(servoSim, deviceName);
+   			return (DEVICE_TYPE) servoSim;
+   		}
    		else {
    			return null;
    		}
+   	}
+   	
+   	public void replace(String deviceName, DEVICE_TYPE hardwareDevice, DEVICE_TYPE originalDevice) {
+   		deviceMap.remove(originalDevice);
+   		deviceMap.put(hardwareDevice, deviceName);
    	}
   }
 
