@@ -87,8 +87,14 @@ public abstract class Drive {
         }
     }
 
-    public void setDriveError(DistanceMeasure m) { allowedDriveError = m.copy();/*paranoia*/ }
-    public void setDriveError(double value, DistanceUnit unit){ allowedDriveError = new DistanceMeasure(value, unit);}
+    public void setDriveError(DistanceMeasure m) { 
+    	allowedDriveError = m.copy();/*paranoia*/
+    	driveError = allowedDriveError.getValue(DistanceUnit.INCH);
+    }
+    public void setDriveError(double value, DistanceUnit unit){ 
+    	allowedDriveError = new DistanceMeasure(value, unit);
+    	driveError = allowedDriveError.getValue(DistanceUnit.INCH);
+    }
     public DistanceMeasure getDriveError(){ return allowedDriveError.copy();/*paranoia*/ }
 
     public void setInchesPerTick(Class<?> clazz, double wheelDiameter){
@@ -242,6 +248,25 @@ public abstract class Drive {
 		Orientation o = getEncoderMotion().getOrientation();
 		return new Angle(o.thirdAngle, o.angleUnit);
 	}
+	
+	@Override
+	public String toString() {
+		return "Speed: "+speed+"\n"+
+				"Drive Speed: "+driveSpeed+"\n"+
+				"Turn Speed: "+turnSpeed+"\n";
+	}
+	public String toString(ToStringOption option){
+		switch(option) {
+			case SPEEDS:
+				return toString();
+			case ENCODERS:
+			case MOTORS:
+			case MOVING:
+			default:
+				return toString();
+		}
+	}
+	public enum ToStringOption{SPEEDS, ENCODERS, MOTORS, MOVING}
 	
 	public enum turnDirection{CW, CCW}
 }

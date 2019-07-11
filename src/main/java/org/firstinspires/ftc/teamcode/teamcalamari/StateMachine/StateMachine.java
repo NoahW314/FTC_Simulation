@@ -13,6 +13,8 @@ public class StateMachine {
     private Map<String, State> states = new HashMap<>();
     private State currentState;
 
+    public State getCurrentState() {return currentState;}
+    
     public StateMachine(State... states){
         for(State state : states) {
             this.states.put(state.getName(), state);
@@ -27,15 +29,15 @@ public class StateMachine {
 
     public void start(String startState){
         currentState = states.get(startState);
-        currentState.reset(); //paranoia
+        currentState.onTriggered(); //paranoia
     }
 
-    public void handleEvent(Event event){
+    public void handleEvent(Event<?> event){
         String nextState = currentState.handleEvent(event);
         if(nextState == null) return;
         if(!currentState.getName().equals(nextState)){
             currentState = states.get(nextState);
-            currentState.reset();
+            currentState.onTriggered();
         }
     }
 
@@ -46,13 +48,13 @@ public class StateMachine {
 
     public interface State {
         void run();
-        void reset();
-        String handleEvent(Event event);
+        String handleEvent(Event<?> event);
         String getName();
         void addTransitions(StateTransition... transitions);
+        void onTriggered();
     }
 
-    public static abstract class StateBase implements State{
+    public static abstract class StateBase implements State {
         //name of this state
         protected String name;
         //transitions from this state
@@ -63,13 +65,13 @@ public class StateMachine {
             stateTransitions = new ArrayList<>(Arrays.asList(transitions));
         }
 
-        public String handleEvent(Event event){
+        public String handleEvent(Event<?> event){
             String nextState = null;
             for(StateTransition t : stateTransitions){
-                if(event.triggers(t.event)){
+            	//Check if the event required for a transition is met in the event given
+                if(t.event.check(event)){
                     if(nextState != null) throw new IllegalStateException("Two StateTransitions are present for a single event!");
                     nextState = t.state;
-                    t.event.onTriggered();
                 }
             }
             return nextState;
@@ -84,13 +86,22 @@ public class StateMachine {
     }
     public static class StateTransition {
         //event to be triggered by change
-        private Event event;
+        private Event<?> event;
         //state to change to upon event trigger
         private String state;
 
-        public StateTransition(Event transitionEvent, String nextState){
+        public StateTransition(Event<?> transitionEvent, String nextState){
             event = transitionEvent.copy();
             state = nextState;
+        }
+        
+        
+        public Event<?> getEvent(){
+        	return event;
+        }
+        public String toString() {
+        	return "State: "+state+"  "+
+        			"Event: "+event.toString()+"\n";
         }
     }
 }

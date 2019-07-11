@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.DriveClasses;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.teamcalamari.Math2;
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeType;
 import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.Angle;
+import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.DistanceMeasure;
 import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.Position;
 import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Motors.Motor;
@@ -69,10 +71,10 @@ public class KiwiDrive extends OmniWheelDrive {
         for(int i = 0; i < wheelMotors.length; i++) {
             encoderDifferences[i] = wheelMotors[i].getCurrentPosition()-lastEncoderPositions[i];
         }
-        double turnDistance = (encoderDifferences[0]+encoderDifferences[1]+encoderDifferences[2])/3*inchesPerTick;
+        DistanceMeasure turnDistance = new DistanceMeasure((encoderDifferences[0]+encoderDifferences[1]+encoderDifferences[2])/3*inchesPerTick, DistanceUnit.INCH);
 
         Orientation o = encoderMotion.getOrientation();
-        o.thirdAngle+=(turnDistance/turnRadius.value*180/Math.PI);
+        o.thirdAngle+=(turnDistance.div(turnRadius)*180/Math.PI);
         o.thirdAngle = (float) Math2.to360(o.thirdAngle);
         encoderMotion.setOrientation(o);
 
@@ -103,6 +105,22 @@ public class KiwiDrive extends OmniWheelDrive {
         pose.y+=driveDistance*Math.sin(theta);
         encoderMotion.setPosition(pose);
     }
+	
+	public void updateEncoderMotionTurn(Angle prevHeading) {
+		int[] encoderDifferences = new int[wheelMotors.length];
+        for(int i = 0; i < wheelMotors.length; i++) {
+            encoderDifferences[i] = wheelMotors[i].getCurrentPosition()-lastEncoderPositions[i];
+        }
+        DistanceMeasure turnDistance = new DistanceMeasure((encoderDifferences[0]+encoderDifferences[1]+encoderDifferences[2])/3*inchesPerTick, DistanceUnit.INCH);
+
+        Orientation o = encoderMotion.getOrientation();
+        o.thirdAngle+=(turnDistance.div(turnRadius)*180/Math.PI);
+        o.thirdAngle = (float) Math2.to360(o.thirdAngle);
+        encoderMotion.setOrientation(o);
+        
+        updateEncoderMotion(prevHeading, getEncoderHeading());
+	}
+	
     @Override
     public void updateEncoderMotion(Angle prevHeading, Angle heading){
 	    //paranoia.  This probably doesn't need to be overridden

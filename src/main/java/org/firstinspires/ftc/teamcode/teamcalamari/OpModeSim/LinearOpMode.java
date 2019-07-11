@@ -22,6 +22,7 @@ public abstract class LinearOpMode extends OpMode {
 	  private Scanner sc = null;
 	  private Thread t = new Thread(new Timer30Sec());
 	  private boolean useTimer = true;
+	  int loopTime = 100;
 
 
 	  //------------------------------------------------------------------------------------------------
@@ -116,7 +117,7 @@ public abstract class LinearOpMode extends OpMode {
 		telemetry.update();
 	    boolean isActive = !this.isStopRequested() && this.isStarted();
 	    if (isActive) {
-	      sleep(100);
+	      sleep(loopTime);
 	      telemetry.moveHardware(hardwareMap.deviceMap.keySet());
 	      if(telemetry.logHardware) {
 	    	  telemetry.logHardware(hardwareMap.deviceMap.entrySet());

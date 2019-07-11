@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Gamepad;
 
-import com.qualcomm.robotcore.hardware.Gamepad;
+import java.lang.reflect.Field;
 
+import org.firstinspires.ftc.teamcode.teamcalamari.StateMachine.Events.Gamepad.GamepadEvent.GamepadNumber;
 import org.firstinspires.ftc.teamcode.teamcalamari.StateMachine.Events.Gamepad.GamepadMotionDetectedEvent;
 import org.firstinspires.ftc.teamcode.teamcalamari.StateMachine.Events.Gamepad.GamepadMotionEvent;
 import org.firstinspires.ftc.teamcode.teamcalamari.StateMachine.Events.Gamepad.GamepadMotionNotDetectedEvent;
 
-import java.lang.reflect.Field;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 public enum GamepadTrigger implements GamepadMotion{
     NONE(""),
@@ -37,15 +38,15 @@ public enum GamepadTrigger implements GamepadMotion{
     }
 
     @Override
-    public GamepadMotionEvent getEvent(){
-        return new GamepadMotionEvent(this);
+    public GamepadMotionEvent getEvent(GamepadNumber number){
+        return new GamepadMotionEvent(this, number);
     }
     @Override
-    public GamepadMotionDetectedEvent getDetectedEvent(){
-        return new GamepadMotionDetectedEvent(this);
+    public GamepadMotionDetectedEvent getDetectedEvent(GamepadNumber number){
+        return new GamepadMotionDetectedEvent(this, number);
     }
     @Override
-    public GamepadMotionNotDetectedEvent getNotDetectedEvent(){
-        return new GamepadMotionNotDetectedEvent(this);
+    public GamepadMotionNotDetectedEvent getNotDetectedEvent(GamepadNumber number){
+        return new GamepadMotionNotDetectedEvent(this, number);
     }
 }

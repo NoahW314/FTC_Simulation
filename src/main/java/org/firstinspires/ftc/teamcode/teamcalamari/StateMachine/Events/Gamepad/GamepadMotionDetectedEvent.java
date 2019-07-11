@@ -1,18 +1,19 @@
 package org.firstinspires.ftc.teamcode.teamcalamari.StateMachine.Events.Gamepad;
 
 import org.firstinspires.ftc.teamcode.teamcalamari.Range;
-import org.firstinspires.ftc.teamcode.teamcalamari.StateMachine.Events.Event;
 import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Gamepad.GamepadMotion;
 
 public class GamepadMotionDetectedEvent extends GamepadMotionEvent {
     public GamepadMotionDetectedEvent(GamepadMotion motionControl) {
-        super(motionControl, new Range<>(-1f, 1f));
+        super(motionControl, getMotionDetectedRange());
     }
-
-    @Override
-    public boolean triggers(Event e){
-        if(!(e instanceof GamepadMotionEvent))return false;
-        GamepadMotionEvent ge = (GamepadMotionEvent) e;
-        return this.control.equals(ge.control) && range.contains(ge.getValue()) && ge.getValue() != 0;
+    public GamepadMotionDetectedEvent(GamepadMotion motionControl, GamepadNumber number) {
+        super(motionControl, getMotionDetectedRange(), number);
+    }
+    
+    private static Range<Float> getMotionDetectedRange(){
+    	Range<Float> r = new Range<Float>(-1f, 1f);
+    	r.addExclusion(0f);
+    	return r;
     }
 }

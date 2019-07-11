@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Sensors;
 
 import org.firstinspires.ftc.teamcode.teamcalamari.SensorDataModes;
+import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Gamepad.Gamepad;
+import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Gamepad.GamepadButton;
 
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -26,10 +28,30 @@ public class TouchSensorTC extends SensorTemplate<TouchSensor, Double, SensorDat
 		switch(mode) {
 			case RAW:
 			case NORMALIZED:
+				if(linkedWithGamepad) return button.getValue(gamepad) ? 1.0 : 0.0; 
 				return data;
 			default:
 				throw new IllegalArgumentException("The sensor data mode '"+mode+"' is not supported by the TouchSensor.getData method");
 		}
+	}
+	
+	public TouchSensorSimpleTC toSimple() {
+		return new TouchSensorSimpleTC(null);//sensor
+	}
+	
+	
+	public Gamepad gamepad;
+	public GamepadButton button;
+	public boolean linkedWithGamepad = false;
+	public void linkWithGamepad(Gamepad gamepad, GamepadButton button) {
+		this.gamepad = gamepad;
+		this.button = button;
+		linkedWithGamepad = true;
+	}
+	public void unlinkFromGamepad() {
+		this.gamepad = null;
+		this.button = null;
+		linkedWithGamepad = false;
 	}
 
 }

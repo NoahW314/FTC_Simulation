@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Gamepad.Gamepad;
 
 public abstract class OpMode {
 	
-	public Gamepad gamepad1 = new Gamepad();
-	public Gamepad gamepad2 = new Gamepad();
+	public volatile Gamepad gamepad1 = new Gamepad();
+	public volatile Gamepad gamepad2 = new Gamepad();
 	
 	  private boolean isStopRequested = false;
 

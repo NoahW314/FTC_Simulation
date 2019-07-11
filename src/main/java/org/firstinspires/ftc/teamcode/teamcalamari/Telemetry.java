@@ -4,11 +4,12 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.HardwareDevice;
 import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Motors.Motor;
 
-public class Telemetry{
+public class Telemetry {
 	public Telemetry(OpModeType opModeType) {
 		this.opModeType = opModeType;
 	}
@@ -38,7 +39,7 @@ public class Telemetry{
 	public void logHardware(Set<Entry<com.qualcomm.robotcore.hardware.HardwareDevice, String>> hardwareMapEntries) {
 		for(Entry<com.qualcomm.robotcore.hardware.HardwareDevice, String> entry : hardwareMapEntries) {
 			boolean isMotor = (entry.getKey().getClass() == Motor.class);
-			if(!isMotor || (isMotor && logMotors)) {
+			if(!isMotor || logMotors) {
 				addData(entry.getValue(), ((HardwareDevice)entry.getKey()).log(entry.getValue()));
 			}
 		}

@@ -1,35 +1,37 @@
 package org.firstinspires.ftc.teamcode.teamcalamari.OpModeTests.Nav;
 
-import static org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.INCH;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeType;
 import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.Angle;
+import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.DistanceMeasure;
 import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.Position;
-import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.AutonomousNavigation.AllDirectionsNavigation;
+import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.AutonomousNavigation.AllDirectionsRobotNavigation;
+import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.AutonomousNavigation.AutonomousRobotNavigation;
+import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.AutonomousNavigation.Point;
+import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.AutonomousNavigation.Transition;
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeSim.LinearOpMode;
+import org.firstinspires.ftc.teamcode.teamcalamari.RobotAction.RobotAction;
 import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.DriveClasses.KiwiDrive;
 import org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.DriveClasses.OmniWheelDrive;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Omni Drive Turn Track Test")
+@Autonomous(name="Auto Path Test")
 public class OmniDriveAndTurnTrackingTest extends LinearOpMode {
-
     //the angle of the front of the robot relative to the blue wheel
     private Angle angle = new Angle(0, AngleUnit.DEGREES);
     //the speed of the robot
-    private double speed = 1;
+    private double speed = 0.25;
     private double driveSpeed = 0.5;
 
-    private double stillTurnSpeed = 0.75;
+    private double stillTurnSpeed = 0.25;
     private double stillTurnTurnSpeed = 0.5;
-
-    private double moveTurnSpeed = 0.5;
 
     //the motors, servos, sensors, servo values, and drivetrain
     private BNO055IMU imu;
@@ -37,22 +39,61 @@ public class OmniDriveAndTurnTrackingTest extends LinearOpMode {
     private OmniWheelDrive drive;
 
     //navigation variables
-    private int targetNum = 4;
-    private AllDirectionsNavigation nav = new AllDirectionsNavigation(targetNum, speed, driveSpeed, stillTurnSpeed, stillTurnTurnSpeed, moveTurnSpeed, this);
+    private AutonomousRobotNavigation nav;
+
+    private RobotAction log = new RobotAction() {
+        ElapsedTime time = new ElapsedTime();
+        public boolean start() {
+            time.reset();
+            return true;
+        }
+        public boolean act() {
+            if(time.seconds() > 3) {
+                return true;
+            }
+            else {
+                telemetry.addData("Drive Action", "Running");
+            }
+            return false;
+        }
+    };
 
     @Override
     public void runOpMode() throws InterruptedException {
-        nav.targets.set(0, new VectorF(0, 0));
-        nav.targets.set(1, new VectorF(24, 0));
-        nav.targets.set(2, new VectorF(24, 24));
-        nav.targets.set(3, new VectorF(0, 0));
 
-        nav.stationaryTurns.set(0, new Angle(-45.0, AngleUnit.DEGREES));
-        nav.stationaryTurns.set(1, new Angle(125.0, AngleUnit.DEGREES));
+        List<Point> points = new ArrayList<>();
+        List<Transition> transitions = new ArrayList<>();
+        Point.PointBuilder pointBuilder = new Point.PointBuilder(stillTurnSpeed, stillTurnTurnSpeed, false);
+        Transition.TransitionBuilder transBuilder = new Transition.TransitionBuilder(speed, driveSpeed, false);
 
-        nav.actionFirst.set(1, true);
+        points.add(0, pointBuilder
+                .addTurn(new Angle(-45))
+                .addAction(new RobotAction() {
+                    @Override
+                    public boolean act() {
+                        System.out.println("Actioning 1");
+                        return true;
+                    }
+                })
+                .build(new Position(0, 0)));
 
-        nav.drivingTurns.set(1, new Angle(0.0, AngleUnit.DEGREES));
+        points.add(1, pointBuilder
+                .addTurn(new Angle(125))
+                .addAngleTillP(new Angle(25))
+                .addAction(new RobotAction(){
+                    public boolean act(){
+                        System.out.println("Actioning 2");
+                        return true;
+                    }
+                })
+                .addActionFirst(true)
+                .build(new Position(24, 0)));
+        points.add(2, pointBuilder.build(new Position(24, 24)));
+        points.add(3, pointBuilder.build(new Position(0, 0)));
+
+        transitions.add(0, transBuilder.addAction(log).addDistTillP(6, DistanceUnit.INCH).addContinuous(false).build());
+        transitions.add(1, transBuilder.addTurn(new Angle(0)).addTurnToRequired(false).addTurnSpeed(0.5).build());
+        transitions.add(2, transBuilder.build());
 
         //IMU initialization
         BNO055IMU.Parameters parametersIMU = new BNO055IMU.Parameters();
@@ -69,26 +110,30 @@ public class OmniDriveAndTurnTrackingTest extends LinearOpMode {
         drive = new KiwiDrive(hardwareMap, angle, OpModeType.AUTO, "RedMotor", "GreenMotor", "BlueMotor");
         drive.updateEncoders();
         drive.inchesPerTick = Math.PI*4/1120;
+        drive.turnRadius = new DistanceMeasure(8, DistanceUnit.INCH);
         drive.turnError = new Angle(2);
-        drive.setDriveError(2, INCH);
+        drive.setDriveError(2, DistanceUnit.INCH);
 
         //navigation initialization
-        nav.update(new VectorF(0, 0), new Angle(0, AngleUnit.DEGREES));
-        nav.initialize(drive);
+        nav = new AllDirectionsRobotNavigation(this, points, transitions, drive);
+        nav.initialize(new Position(0, 0), new Angle(0, AngleUnit.DEGREES), true);
 
         waitForStart();
 
-        Angle prevHeading = new Angle(imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle);
+        Angle prevHeading = drive.getEncoderHeading().copy();
         while(opModeIsActive()) {
-            Angle heading = new Angle(imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle, AngleUnit.DEGREES);
-            drive.updateEncoderMotion(prevHeading, heading);
-            nav.updateHeading(heading);
-            Position pose = drive.getEncoderMotion().getPosition();
-            nav.updatePosition(new VectorF((float)pose.x, (float)pose.y));
+            drive.updateEncoderMotionTurn(prevHeading);
+            Angle heading = drive.getEncoderHeading().copy(); 
+            nav.updateHeading(heading, true);
+            Position pose = drive.getEncoderPosition();
+            nav.updatePosition(pose, true);
             nav.run();
             drive.updateEncoders();
+            
             prevHeading = heading.copy();
+            
+            telemetry.addData("Heading", heading);
+            telemetry.addData("Position", drive.getEncoderPosition());
         }
     }
-
 }

@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.teamcalamari;
 
-import com.qualcomm.hardware.motors.NeveRest60Gearmotor;
-import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
-import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
-import com.qualcomm.robotcore.hardware.configuration.annotations.MotorType;
+import java.util.ArrayList;
+import java.util.List;
 
 class Test implements Runnable {
 
@@ -35,11 +33,27 @@ class Test implements Runnable {
         test.keepRunning = false;
         t.interrupt();  // cancel current sleep.*/
     	
-    	MotorConfigurationType motorType = new MotorConfigurationType();
+    	/*MotorConfigurationType motorType = new MotorConfigurationType();
     	motorType.processAnnotation(NeveRest60Gearmotor.class.getDeclaredAnnotation(MotorType.class));
     	motorType.processAnnotation(RevRoboticsCoreHexMotor.class.getDeclaredAnnotation(MotorType.class));
     	System.out.println(motorType.getTicksPerRev());
     	System.out.println(motorType.getGearing());
-    	System.out.println(motorType.getMaxRPM());
+    	System.out.println(motorType.getMaxRPM());*/
+    	
+    	
+    	List<Range<Boolean>> ranges = new ArrayList<>();
+    	ranges.add(new Range<Boolean>(Boolean.FALSE, Boolean.TRUE));
+    	ranges.add(new Range<Boolean>(Boolean.TRUE, Boolean.FALSE));
+    	ranges.add(new Range<Boolean>(Boolean.FALSE, Boolean.FALSE));
+    	ranges.add(new Range<Boolean>(Boolean.TRUE, Boolean.TRUE));
+    	Boolean[] booleans = new Boolean[] {Boolean.FALSE, Boolean.TRUE};
+    	
+    	for(Range<Boolean> r : ranges) {
+    		for(Boolean b : booleans) {
+    			System.out.println(r.toString()+"  "+b);
+    			System.out.println(r.contains(b));
+    			System.out.println();
+    		}
+    	}
     }
 }

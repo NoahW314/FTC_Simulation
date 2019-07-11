@@ -34,7 +34,7 @@ public class OmniWheelDrive extends AllDirectionsDrive {
     }
 
     public Angle driveAngle = null;
-    public Angle getDriveAngle(){return driveAngle.copy();}
+    public Angle getDriveAngle(){return driveAngle == null ? null : driveAngle.copy();}
 
     /**Drives the robot at a set angle, relative to the robot user axes*/
     public void driveAtAngle(Angle driveAngle) {
@@ -73,10 +73,10 @@ public class OmniWheelDrive extends AllDirectionsDrive {
 		for(int i = 0; i < wheelMotors.length; i++) {
 			encoderDifferences[i] = wheelMotors[i].getCurrentPosition()-lastEncoderPositions[i];
 		}
-		double turnDistance = (encoderDifferences[0]+encoderDifferences[2])/2*inchesPerTick;
+		DistanceMeasure turnDistance = new DistanceMeasure((encoderDifferences[0]+encoderDifferences[2])/2*inchesPerTick, DistanceUnit.INCH);
 
 		Orientation o = encoderMotion.getOrientation();
-		o.thirdAngle+=(turnDistance/turnRadius.value*180/Math.PI);
+		o.thirdAngle+=(turnDistance.div(turnRadius)*180/Math.PI);
 		o.thirdAngle = (float) Math2.to360(o.thirdAngle);
 		encoderMotion.setOrientation(o);
 
@@ -98,6 +98,20 @@ public class OmniWheelDrive extends AllDirectionsDrive {
 		pose.y+=driveDistance*Math.sin(theta);
 		encoderMotion.setPosition(pose);
 	}
+	public void updateEncoderMotionTurn(Angle prevHeading) {
+		int[] encoderDifferences = new int[wheelMotors.length];
+		for(int i = 0; i < wheelMotors.length; i++) {
+			encoderDifferences[i] = wheelMotors[i].getCurrentPosition()-lastEncoderPositions[i];
+		}
+		double turnDistance = (encoderDifferences[0]+encoderDifferences[2])/2*inchesPerTick;
+
+		Orientation o = encoderMotion.getOrientation();
+		o.thirdAngle+=(turnDistance/turnRadius.value*180/Math.PI);
+		o.thirdAngle = (float) Math2.to360(o.thirdAngle);
+		encoderMotion.setOrientation(o);
+		
+		updateEncoderMotion(prevHeading, getEncoderHeading());
+	}
 	@Override
     public void updateEncoderMotion(Angle prevHeading, Angle heading){
         //if the angles are equal default to normal driving encoder calculations
@@ -111,6 +125,8 @@ public class OmniWheelDrive extends AllDirectionsDrive {
             encoderDifferences[i] = wheelMotors[i].getCurrentPosition()-lastEncoderPositions[i];
         }
         Angle driveAngle = getDriveAngle();
+        if(driveAngle == null) return;
+        
         DistanceMeasure arcLength = calculateArcLength(encoderDifferences[0], encoderDifferences[1], encoderDifferences[2],
                                                     driveAngle, getWheelAngleDiff());
         Position poseDiff = getPoseDiff(arcLength, prevHeading, heading);

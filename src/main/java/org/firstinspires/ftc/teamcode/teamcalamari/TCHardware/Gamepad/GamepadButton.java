@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.teamcalamari.TCHardware.Gamepad;
 
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import org.firstinspires.ftc.teamcode.teamcalamari.StateMachine.Events.Gamepad.GamepadButtonEvent;
-
 import java.lang.reflect.Field;
+
+import org.firstinspires.ftc.teamcode.teamcalamari.StateMachine.Events.Gamepad.GamepadButtonClickedEvent;
+import org.firstinspires.ftc.teamcode.teamcalamari.StateMachine.Events.Gamepad.GamepadButtonEvent;
+import org.firstinspires.ftc.teamcode.teamcalamari.StateMachine.Events.Gamepad.GamepadEvent.GamepadNumber;
+
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 public enum GamepadButton implements GamepadControl<Boolean> {
     NONE(""),
@@ -48,16 +50,19 @@ public enum GamepadButton implements GamepadControl<Boolean> {
     }
 
     @Override
-    public GamepadButtonEvent getEvent(){
-        Gamepad gamepad = new Gamepad();
-        if(getString().equals("")){throw new IllegalArgumentException("Can't set the value of NONE on a gamepad");}
-        try {
-            Field field = Gamepad.class.getField(getString());
-            field.setBoolean(gamepad, true);
-        } catch(ReflectiveOperationException e){
-            throw new IllegalStateException("The button "+getString()+" doesn't exist");
-        }
-
-        return new GamepadButtonEvent(gamepad, this);
+    public GamepadButtonEvent getEvent(GamepadNumber number) {
+    	return getPressedEvent(number);
+    }
+    public GamepadButtonEvent getPressedEvent(GamepadNumber number){
+        if(getString().equals("")) throw new IllegalArgumentException("Can't get the gamepad event of NONE");
+        return new GamepadButtonEvent(this, true, number);
+    }
+    public GamepadButtonEvent getReleasedEvent(GamepadNumber number) {
+        if(getString().equals("")) throw new IllegalArgumentException("Can't get the gamepad event of NONE");
+        return new GamepadButtonEvent(this, false, number);
+    }
+    public GamepadButtonClickedEvent getClickedEvent(GamepadNumber number, boolean onDown) {
+        if(getString().equals("")) throw new IllegalArgumentException("Can't get the gamepad event of NONE");
+        return new GamepadButtonClickedEvent(this, onDown, number);
     }
 }

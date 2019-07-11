@@ -24,7 +24,7 @@ public class Motor extends MotorSimple implements DcMotor {
 	    this(motorName, hwMap, false);
     }
     public Motor(String motorName, HardwareMap hwMap, boolean usingEncoders){
-        this(hwMap.dcMotor.get(motorName));
+        super(motorName, hwMap, MotorSimple.class);
 	    if(usingEncoders){
 	        controller.setMotorMode(0, RunMode.STOP_AND_RESET_ENCODER);
 	        controller.setMotorMode(0, RunMode.RUN_USING_ENCODER);

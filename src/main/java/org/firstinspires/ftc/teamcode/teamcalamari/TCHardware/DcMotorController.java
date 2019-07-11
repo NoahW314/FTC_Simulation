@@ -23,6 +23,7 @@ public class DcMotorController implements com.qualcomm.robotcore.hardware.DcMoto
 	protected int currentPosition = 0;
 	protected RunMode mode = RunMode.RUN_USING_ENCODER;
 	
+	public DcMotorController() {}
 	public DcMotorController(DcMotorSimple m) {
 		motor = m;
 	}

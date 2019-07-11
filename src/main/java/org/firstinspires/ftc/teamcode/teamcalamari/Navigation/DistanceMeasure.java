@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.teamcalamari.Navigation;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**Represents a measure of distance in a certain unit*/
-public class DistanceMeasure {
+public class DistanceMeasure implements Comparable<DistanceMeasure> {
     public double value;
     public DistanceUnit unit;
 
@@ -49,4 +49,11 @@ public class DistanceMeasure {
     public String toString(){
         return value+" "+unit;
     }
+    
+	@Override
+	public int compareTo(DistanceMeasure m) {
+		if(greaterThan(m)) return 1;
+		if(lessThan(m)) return -1;
+		return 0;
+	}
 }

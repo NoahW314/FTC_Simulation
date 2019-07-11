@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.teamcalamari.OpModeType;
 import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.Angle;
+import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.DistanceMeasure;
 import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.Position;
 import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.AutonomousNavigation.AllDirectionsRobotNavigation;
 import org.firstinspires.ftc.teamcode.teamcalamari.Navigation.AutonomousNavigation.AutonomousRobotNavigation;
@@ -23,8 +22,6 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import android.util.Log;
-
 @Autonomous(name="Auto Path Test")
 public class AutoPathTest extends LinearOpMode {
     //the angle of the front of the robot relative to the blue wheel
@@ -33,7 +30,7 @@ public class AutoPathTest extends LinearOpMode {
     private double speed = 0.25;
     private double driveSpeed = 0.5;
 
-    private double stillTurnSpeed = 0.75;
+    private double stillTurnSpeed = 0.25;
     private double stillTurnTurnSpeed = 0.5;
 
     //the motors, servos, sensors, servo values, and drivetrain
@@ -74,7 +71,7 @@ public class AutoPathTest extends LinearOpMode {
                 .addAction(new RobotAction() {
                     @Override
                     public boolean act() {
-                        Log.v("AutoNav", "Actioning");
+                        System.out.println("Actioning 1");
                         return true;
                     }
                 })
@@ -85,7 +82,7 @@ public class AutoPathTest extends LinearOpMode {
                 .addAngleTillP(new Angle(25))
                 .addAction(new RobotAction(){
                     public boolean act(){
-                        Log.v("AutoNav", "Actioning");
+                        System.out.println("Actioning 2");
                         return true;
                     }
                 })
@@ -95,7 +92,7 @@ public class AutoPathTest extends LinearOpMode {
         points.add(3, pointBuilder.build(new Position(0, 0)));
 
         transitions.add(0, transBuilder.addAction(log).addDistTillP(6, DistanceUnit.INCH).addContinuous(false).build());
-        transitions.add(1, transBuilder.addTurn(new Angle(225)).addTurnSpeed(0.6).addTurnToRequired(false).build());
+        transitions.add(1, transBuilder.build());
         transitions.add(2, transBuilder.build());
 
         //IMU initialization
@@ -113,6 +110,7 @@ public class AutoPathTest extends LinearOpMode {
         drive = new KiwiDrive(hardwareMap, angle, OpModeType.AUTO, "RedMotor", "GreenMotor", "BlueMotor");
         drive.updateEncoders();
         drive.inchesPerTick = Math.PI*4/1120;
+        drive.turnRadius = new DistanceMeasure(8, DistanceUnit.INCH);
         drive.turnError = new Angle(2);
         drive.setDriveError(2, DistanceUnit.INCH);
 
@@ -122,16 +120,17 @@ public class AutoPathTest extends LinearOpMode {
 
         waitForStart();
 
-        Angle prevHeading = new Angle(imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle);
         while(opModeIsActive()) {
-            Angle heading = new Angle(imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle, AngleUnit.DEGREES);
-            drive.updateEncoderMotion(prevHeading, heading);
+            drive.updateEncoderMotion();
+            Angle heading = drive.getEncoderHeading().copy(); 
             nav.updateHeading(heading, true);
-            Position pose = drive.getEncoderMotion().getPosition();
+            Position pose = drive.getEncoderPosition();
             nav.updatePosition(pose, true);
             nav.run();
             drive.updateEncoders();
-            prevHeading = heading.copy();
+            
+            telemetry.addData("Heading", heading);
+            telemetry.addData("Position", drive.getEncoderPosition());
         }
     }
 }

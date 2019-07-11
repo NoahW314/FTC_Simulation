@@ -26,10 +26,9 @@ public class Gamepad extends com.qualcomm.robotcore.hardware.Gamepad {
 		dpad_left = input.contains("k");
 
 		//mode, start, back
-		//TODO: m is used twice.  Here and in the joystick right x
-		guide = input.contains("m");
-		start = input.contains("s");
-		back = input.contains("`");
+		guide = input.contains("g");
+		start = input.contains("d");
+		back = input.contains("f");
 		
 		
 		//motion
@@ -66,5 +65,28 @@ public class Gamepad extends com.qualcomm.robotcore.hardware.Gamepad {
 
 		
 		callCallback();
+	}
+	
+	public static String letterToFullString(String letter) {
+		switch(letter) {
+			case "a":
+			case "b":
+			case "x":
+			case "y":
+				return letter.toUpperCase();
+			
+			case "p": return "RIGHT_BUMPER";
+			case "q": return "LEFT_BUMPER";
+			
+			case "o": return "DPAD_UP";
+			case "l": return "DPAD_OWN";
+			case ";": return "DPAD_RIGHT";
+			case "k": return "DPAD_LEFT";
+			
+			case "g": return "GUIDE";
+			case "d": return "START";
+			case "f": return "BACK";
+			default: throw new IllegalArgumentException("Invalid Letter for a gamepad");
+		}
 	}
 }

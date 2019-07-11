@@ -17,9 +17,10 @@ public class MotorSimple implements HardwareDevice, DcMotorSimple {
 	
 	protected DcMotorController controller;
 
-    public MotorSimple(){}
+    public MotorSimple(){
+    	controller = new DcMotorController();
+    }
     public MotorSimple(DcMotorSimple m) {
-		this();
 		controller = new DcMotorController(m);
 	}
     public <T extends DcMotorSimple> MotorSimple(String motorName, HardwareMap hwMap, Class<T> clazz){
@@ -97,7 +98,7 @@ public class MotorSimple implements HardwareDevice, DcMotorSimple {
 
         /*divide all the motor powers by the maximum power to preserve
         the ratios between the wheels while keeping the powers under 1*/
-        if (maxi != 0 && maxi > 1) {
+        if (maxi != 0 && maxi > speed) {
             for (MotorSimple motor : motors) {
                 motor.resetPower(motor.getNextPower()*speed/maxi);
             }

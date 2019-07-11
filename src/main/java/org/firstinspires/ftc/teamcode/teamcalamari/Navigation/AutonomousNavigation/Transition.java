@@ -17,12 +17,16 @@ public class Transition {
 
     private Transition(){}
 
-    public static Transition createDefaultSettings(Double speed, Double driveSpeed, Boolean turnToRequired){
+    public static Transition createDefaultSettings(Double speed, Double driveSpeed, Double turnSpeed, Boolean turnToRequired){
         Transition t = new Transition();
         t.speed = speed;
         t.driveSpeed = driveSpeed;
         t.turnToRequired = turnToRequired;
+        t.turnSpeed = turnSpeed;
         return t;
+    }
+    public static Transition createDefaultSettings(Double speed, Double driveSpeed, Boolean turnToRequired){
+        return createDefaultSettings(speed, driveSpeed, 0d, turnToRequired);
     }
 
     public Transition copy(){

@@ -1,20 +1,20 @@
 package org.firstinspires.ftc.teamcode.teamcalamari.OpModeSim;
 
-import java.io.IOException;
 import java.util.Scanner;
 
-import org.teamcalamari.OpModeTests.Rover.TeleOpCompSim;
+import org.firstinspires.ftc.teamcode.teamcalamari.OpModeTests.StateMachineTest;
+
 
 
 public class RunOpMode {
 
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) throws InterruptedException {
 		//replace with the OpMode instance that you want to test with
-		OpMode mode = new TeleOpCompSim();
+		OpMode mode = new StateMachineTest();
 		RunOpMode rom = new RunOpMode();
 		initLoop il = rom.new initLoop(mode);
 		Scanner sc = new Scanner(System.in);
-		updateGamepads ug = rom.new updateGamepads(sc, mode);
+		UpdateGamepads ug = rom.new UpdateGamepads(sc, mode);
 	    
 	    System.out.println("Press enter to initialize OpMode");
 		sc.nextLine();
@@ -62,11 +62,11 @@ public class RunOpMode {
 			}
 		}
 	}
-	private class updateGamepads implements Runnable{
+	private class UpdateGamepads implements Runnable {
 		volatile boolean loop = true;
 		OpMode mode;
 		Scanner s;
-		public updateGamepads(Scanner sc, OpMode mode) {
+		public UpdateGamepads(Scanner sc, OpMode mode) {
 			s = sc;
 			this.mode = mode;
 		}
@@ -74,14 +74,17 @@ public class RunOpMode {
 		public void run() {
 			while(loop) {
 				String str = s.nextLine();
+				
 				if(str.startsWith("1")) {
-					str = str.substring(1, str.length());
+					str = str.substring(1);
+					
 					mode.gamepad1.update(str);
 				}
-				else{
+				else {
 					if(str.length() > 0) {
-						str = str.substring(1, str.length());
+						str = str.substring(1);
 					}
+					
 					mode.gamepad2.update(str);
 				}
 			}
